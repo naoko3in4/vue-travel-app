@@ -37,6 +37,26 @@ const routes = [
     }
   },
   {
+    path: "/user",
+    name: "user",
+    component: () => import(/*webpackChunkName: "User" */ "../views/User"),
+    //make mata field to mark the route as protected
+    meta: {requiresAuth: true}
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import(/*webpackChunkName: "Login" */ "../views/Login")
+  },
+  {
+    path: "/invoices",
+    name: "invoices",
+    component: () => import(/*webpackChunkName: "Invoices" */ "../views/Invoices"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/404",
     alias: "*",
     name: "notFound",
@@ -65,5 +85,28 @@ const router = new VueRouter({
   },
   routes
 });
+
+// create and protect new page using Navigation Guards(ask user to authenticate)
+// beforeEach is callback function which receives to, from and next arguments.
+// create User page(User.vue) only user can access.
+// register the route (router/index.js)
+// access the meta field
+// create login page(Login.vue)
+router.beforeEach((to, from, next) => {
+  // need to login before visiting the page
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if(!store.user) {
+      next({
+        name: "login",
+        query: {redirect: to.fullPath}
+      })
+    } else {
+      next()
+    }
+
+  } else {
+    next()
+  }
+})
 
 export default router;

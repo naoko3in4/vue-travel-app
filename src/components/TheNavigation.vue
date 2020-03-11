@@ -1,6 +1,6 @@
 <template>
   <nav id="nav">
-    <p class="logo">The Vue School Travel App</p>
+    <p class="logo">Travel App with Vue.js</p>
     <ul class="nav-links">
       <li class="links">
         <router-link to="/">
@@ -15,6 +15,9 @@
         }">
           {{destination.name}}
         </router-link>
+      </li>
+      <li class="links">
+        <router-link to="/user">Dashboard</router-link>
       </li>
     </ul>
   </nav>
